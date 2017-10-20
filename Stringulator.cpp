@@ -180,7 +180,13 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 		// std::cout << (int)num << " + " << numToAdd << " == ";  // DEBUGGING
 		// retVal = (char)(((int)((int)num + numToAdd) % 96) + 48);
 		retVal = num + numToAdd;
-		std::cout << "Retval == " << retVal << std::endl;  // DEBUGGING
+		
+		// Verify we didn't 'overflow' a "number"
+		if (retVal > 57)
+		{
+			retVal -= 10;
+		}
+		// std::cout << "Retval == " << retVal << std::endl;  // DEBUGGING
 		// std::cout << retVal << std::endl;  // DEBUGGING
 
 		if (retVal < num)
