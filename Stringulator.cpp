@@ -40,6 +40,7 @@ void StringNum::addOne(void)
 {
 	bool addOne = true;
 	auto number = strAsNum.end();
+	--number;  // No longer pointing *past* the end
 
 	if (check_it())
 	{
@@ -95,6 +96,7 @@ void StringNum::addNum(unsigned int num)
 	int numDigits = 0;
 	int i = 1;
 	auto number = strAsNum.end();
+	--number;  // No longer pointing *past* the end
 	int carryOver = 0;
 	int placeValue = 0;
 
