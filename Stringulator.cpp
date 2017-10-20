@@ -9,33 +9,18 @@
 
 StringNum::StringNum(std::string strNum)
 {
-	std::smatch m;
-	std::regex nonNumbers (R"([^0-9])");
 
-	if (!std::regex_search(strNum, m, nonNumbers))
-	{
 		strAsNum = strNum;	
-	}
-	else
-	{
-		strAsNum = std::string("");
-	}	
+
+		check_it();
 }
 
 
 void StringNum::setStringNum(std::string strNum)
 {
-	std::smatch m;
-	std::regex nonNumbers (R"([^0-9])");
+	strAsNum = strNum;	
 
-	if (!std::regex_search(strNum, m, nonNumbers))
-	{
-		strAsNum = strNum;	
-	}
-	else
-	{
-		strAsNum = std::string("");
-	}	
+	check_it();
 
 	return;
 }
@@ -43,6 +28,8 @@ void StringNum::setStringNum(std::string strNum)
 
 std::string StringNum::getStringNum(void)
 {
+	check_it();
+
 	return strAsNum;
 }
 
@@ -52,7 +39,7 @@ void StringNum::addOne(void)
 	bool addOne = true;
 	auto number = strAsNum.end();
 
-	if (strAsNum.length() > 0)
+	if (check_it())
 	{
 		for (; number != strAsNum.begin(); --number)
 		{
@@ -93,3 +80,22 @@ void StringNum::addOne(void)
 /**************************** PRIVATE FUNCTIONS *****************************/
 /****************************************************************************/
 
+
+bool StringNum::check_it(void)
+{
+	bool retVal = false;
+
+	std::smatch m;
+	std::regex nonNumbers (R"([^0-9])");
+
+	if (!std::regex_search(strAsNum, m, nonNumbers) && strAsNum.length() > 0)
+	{
+		retVal = true;
+	}
+	else
+	{
+		strAsNum = "";
+	}
+
+	return retVal;
+}

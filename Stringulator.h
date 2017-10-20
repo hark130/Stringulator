@@ -14,7 +14,7 @@ class StringNum
 	private:
 		std::string strAsNum;
 
-		
+		bool check_it(void);
 
 };
 
