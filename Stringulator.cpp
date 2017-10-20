@@ -41,7 +41,7 @@ void StringNum::addOne(void)
 
 	if (check_it())
 	{
-		for (; number != strAsNum.begin(); --number)
+		while(1)
 		{
 			// Start adding at the ones place
 			if (addOne)
@@ -63,12 +63,23 @@ void StringNum::addOne(void)
 			{
 				break;
 			}
-		}
 
-		// Number string becomes longer
-		if (number == strAsNum.begin() && addOne)
-		{
-			strAsNum = "1" + strAsNum;
+			// Number string becomes longer
+			if (number == strAsNum.begin() && addOne)
+			{
+				strAsNum = "1" + strAsNum;
+				addOne = false;
+				break;
+			}
+
+			if (number != strAsNum.begin())
+			{
+				--number;  // Decrement the iterator
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 
