@@ -21,6 +21,14 @@ int main(void)
 	someNum.setStringNum(std::string("999"));
 	someNum.addOne();
 	std::cout << "999 + 1 = " << someNum.getStringNum() << std::endl;
+
+	someNum.setStringNum(std::string("0"));
+	for (int i = 1; i <= 10; ++i)
+	{
+		std::cout << someNum.getStringNum() << " + " << i << " = ";
+		someNum.addNum(i);
+		std::cout << someNum.getStringNum() << std::endl;
+	}
 	
 	return 0;
 }

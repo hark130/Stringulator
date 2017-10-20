@@ -1,4 +1,6 @@
 #include "Stringulator.h"
+#include <cmath>
+#include <iostream>		// cout
 #include <regex>
 
 
@@ -87,6 +89,59 @@ void StringNum::addOne(void)
 }
 
 
+void StringNum::addNum(unsigned int num)
+{
+	/* LOCAL VARIABLES */
+	int numDigits = 0;
+	int i = 1;
+	auto number = strAsNum.end();
+	int carryOver = 0;
+	int placeValue = 0;
+
+	/* INPUT VALIDATION */
+	if (num == 1)
+	{
+		addOne();
+	}
+	else if (num > 1)
+	{
+		numDigits = count_num_digits(num);
+		// std::cout << "\nNum digits == " << numDigits << std::endl;  // DEBUGGING
+
+		// for (i = 1; i <= numDigits && (number != (strAsNum.begin() - 1)); ++i, --number)
+		// {
+		// 	std::cout << "\nNumber == " << *number << std::endl;  // DEBUGGING
+		// 	placeValue = get_position_value(num, i);
+		// 	// std::cout << "\nPlace value " << i << " of " << num << " == " << placeValue << std::endl;  // DEBUGGING
+		// 	// std::cout << "\nPlace value " << i << ": " << *number << " + " << placeValue << " == ";  // DEBUGGING
+		// 	*number = increment_char(*number, placeValue, &carryOver);
+		// 	std::cout << *number << std::endl;  // DEBUGGING
+		// }
+		while (1)
+		{
+			std::cout << "\nCurrent Number == " << *number << std::endl;  // DEBUGGING
+			placeValue = get_position_value(num, i);
+			// std::cout << "\nPlace value " << i << " of " << num << " == " << placeValue << std::endl;  // DEBUGGING
+			// std::cout << "\nPlace value " << i << ": " << *number << " + " << placeValue << " == ";  // DEBUGGING
+			*number = increment_char(*number, placeValue, &carryOver);
+			std::cout << *number << std::endl;  // DEBUGGING
+
+			if (i > numDigits || number == (strAsNum.begin() - 1))
+			{
+				break;
+			}
+			else
+			{
+				++i;
+				--number;
+			}
+		}
+	}
+
+	return;
+}
+
+
 /****************************************************************************/
 /**************************** PRIVATE FUNCTIONS *****************************/
 /****************************************************************************/
@@ -106,6 +161,62 @@ bool StringNum::check_it(void)
 	else
 	{
 		strAsNum = "";
+	}
+
+	return retVal;
+}
+
+
+char StringNum::increment_char(char num, int numToAdd, int* carryVal)
+{
+	char retVal = num;
+
+	if (num >= 48 && num <= 57  			// Char is a num
+		&& numToAdd >= 1 && numToAdd < 10 	// numToAdd is appropriate
+		&& carryVal)						// Pointer is valid
+	{
+		// std::cout << (int)num << " + " << numToAdd << " == ";  // DEBUGGING
+		// retVal = (char)(((int)((int)num + numToAdd) % 96) + 48);
+		retVal = num + numToAdd;
+		std::cout << "Retval == " << retVal << std::endl;  // DEBUGGING
+		// std::cout << retVal << std::endl;  // DEBUGGING
+
+		if (retVal < num)
+		{
+			*carryVal = 1;
+		}
+		else
+		{
+			*carryVal = 0;
+		}
+	}
+
+	return retVal;
+}
+
+
+unsigned int StringNum::get_position_value(unsigned int value, int digitNum)
+{
+	int retVal = value;
+
+	/* INPUT VALIDATION */
+	if (value && digitNum > 0)
+	{
+		retVal = (unsigned int)((value % (unsigned int)pow(10, digitNum)) - (unsigned int)(value % (unsigned int)pow(10, digitNum - 1))) / (unsigned int)pow(10, digitNum - 1);
+	}
+
+	return retVal;
+}
+
+
+int StringNum::count_num_digits(unsigned int value)
+{
+	int retVal = 0;
+
+	while(value)
+	{
+		value = value / 10;
+		++retVal;
 	}
 
 	return retVal;

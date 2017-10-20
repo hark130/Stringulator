@@ -10,12 +10,15 @@ class StringNum
 		void setStringNum(std::string strNum);
 		std::string getStringNum(void);
 		void addOne(void);
+		void addNum(unsigned int num);
 
 	private:
 		std::string strAsNum;
 
 		bool check_it(void);
-
+		char increment_char(char num, int numToAdd, int* carryVal);
+		unsigned int get_position_value(unsigned int value, int digitNum);
+		int count_num_digits(unsigned int value);
 };
 
 #endif  // __STRINGULATOR_H__
