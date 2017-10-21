@@ -121,15 +121,34 @@ void StringNum::addNum(unsigned int num)
 		// }
 		while (1)
 		{
-			std::cout << "\nCurrent Number == " << *number << std::endl;  // DEBUGGING
+			// std::cout << "\nCurrent Number == " << *number << std::endl;  // DEBUGGING
 			placeValue = get_position_value(num, i);
 			// std::cout << "\nPlace value " << i << " of " << num << " == " << placeValue << std::endl;  // DEBUGGING
 			// std::cout << "\nPlace value " << i << ": " << *number << " + " << placeValue << " == ";  // DEBUGGING
 			*number = increment_char(*number, placeValue, &carryOver);
-			std::cout << *number << std::endl;  // DEBUGGING
+			// std::cout << *number << std::endl;  // DEBUGGING
 
-			if (i > numDigits || number == (strAsNum.begin() - 1))
+			if (carryOver)
 			{
+				// std::cout << "\nOld num:\t" << num << std::endl;  // DEBUGGING
+				num += (carryOver * pow(10, i));
+				// std::cout << "New num:\t" << num << std::endl;  // DEBUGGING
+				numDigits = count_num_digits(num);
+				if (number == strAsNum.begin())
+				{
+					// std::cout << "here we are again";
+					strAsNum = std::to_string(carryOver + strAsNum[i]) + strAsNum;
+				}
+				carryOver = 0;	
+			}
+
+			if (i == numDigits || number == (strAsNum.begin() - 1))
+			{
+				// if (carryOver)
+				// {
+				// 	strAsNum = "0" + strAsNum;
+				// 	carryOver = 0;
+				// }
 				break;
 			}
 			else
