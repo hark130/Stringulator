@@ -59,7 +59,7 @@ void StringNum::addOne(void)
 				else if (*number == '7') { *number = '8'; addOne = false; }
 				else if (*number == '8') { *number = '9'; addOne = false; }
 				else if (*number == '9') { *number = '0'; }
-				else { } // Something is wrong
+				else { }  // Something is wrong
 			}
 
 			if (!addOne)
@@ -108,35 +108,18 @@ void StringNum::addNum(unsigned int num)
 	else if (num > 1)
 	{
 		numDigits = count_num_digits(num);
-		// std::cout << "\nNum digits == " << numDigits << std::endl;  // DEBUGGING
 
-		// for (i = 1; i <= numDigits && (number != (strAsNum.begin() - 1)); ++i, --number)
-		// {
-		// 	std::cout << "\nNumber == " << *number << std::endl;  // DEBUGGING
-		// 	placeValue = get_position_value(num, i);
-		// 	// std::cout << "\nPlace value " << i << " of " << num << " == " << placeValue << std::endl;  // DEBUGGING
-		// 	// std::cout << "\nPlace value " << i << ": " << *number << " + " << placeValue << " == ";  // DEBUGGING
-		// 	*number = increment_char(*number, placeValue, &carryOver);
-		// 	std::cout << *number << std::endl;  // DEBUGGING
-		// }
 		while (1)
 		{
-			// std::cout << "\nCurrent Number == " << *number << std::endl;  // DEBUGGING
 			placeValue = get_position_value(num, i);
-			// std::cout << "\nPlace value " << i << " of " << num << " == " << placeValue << std::endl;  // DEBUGGING
-			// std::cout << "\nPlace value " << i << ": " << *number << " + " << placeValue << " == ";  // DEBUGGING
 			*number = increment_char(*number, placeValue, &carryOver);
-			// std::cout << *number << std::endl;  // DEBUGGING
 
 			if (carryOver)
 			{
-				// std::cout << "\nOld num:\t" << num << std::endl;  // DEBUGGING
 				num += (carryOver * pow(10, i));
-				// std::cout << "New num:\t" << num << std::endl;  // DEBUGGING
 				numDigits = count_num_digits(num);
 				if (number == strAsNum.begin())
 				{
-					// std::cout << "here we are again";
 					strAsNum = std::to_string(carryOver + strAsNum[i]) + strAsNum;
 				}
 				carryOver = 0;	
@@ -144,11 +127,6 @@ void StringNum::addNum(unsigned int num)
 
 			if (i == numDigits || number == (strAsNum.begin() - 1))
 			{
-				// if (carryOver)
-				// {
-				// 	strAsNum = "0" + strAsNum;
-				// 	carryOver = 0;
-				// }
 				break;
 			}
 			else
@@ -196,7 +174,6 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 		&& numToAdd >= 1 && numToAdd < 10 	// numToAdd is appropriate
 		&& carryVal)						// Pointer is valid
 	{
-		// std::cout << (int)num << " + " << numToAdd << " == ";  // DEBUGGING
 		// retVal = (char)(((int)((int)num + numToAdd) % 96) + 48);
 		retVal = num + numToAdd;
 		
@@ -205,8 +182,6 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 		{
 			retVal -= 10;
 		}
-		// std::cout << "Retval == " << retVal << std::endl;  // DEBUGGING
-		// std::cout << retVal << std::endl;  // DEBUGGING
 
 		if (retVal < num)
 		{
