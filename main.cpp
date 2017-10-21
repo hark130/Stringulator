@@ -4,6 +4,8 @@
 
 int main(void)
 {
+	int tempInt = 0;
+
 	StringNum someNum(std::string("This is a test"));
 	std::cout << "String is:\t" << someNum.getStringNum() << std::endl;
 	someNum.setStringNum(std::string("This is also test"));
@@ -29,6 +31,12 @@ int main(void)
 		someNum.addNum(i);
 		std::cout << someNum.getStringNum() << std::endl;
 	}
+
+	tempInt = 1234567890;
+	someNum.setStringNum(std::string("1234567890"));
+	std::cout << someNum.getStringNum() << " + " << tempInt << " = ";
+	someNum.addNum(tempInt);
+	std::cout << someNum.getStringNum() << std::endl;
 	
 	return 0;
 }
