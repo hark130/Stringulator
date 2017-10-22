@@ -1,6 +1,9 @@
 #include "Stringulator.h"
+#include <climits>		// UINT_MAX
 #include <iostream>
 #include <string>
+
+#define NUM_RUNS 10000
 
 int main(void)
 {
@@ -37,6 +40,23 @@ int main(void)
 	std::cout << someNum.getStringNum() << " + " << tempInt << " = ";
 	someNum.addNum(tempInt);
 	std::cout << someNum.getStringNum() << std::endl;
+
+	someNum.setStringNum(std::string("0"));
+	std::cout << "STARTING TEST" << std::endl;
+	unsinged long long oldNum = 0;
+	unsinged long long newNum = 0;
+	for (int i = 0; i <= NUM_RUNS; ++i)
+	{
+		oldNum = newNum;
+		someNum.addNum(UINT_MAX);
+		newNum = stoll(someNum.getStringNum());
+		if (newNum <= oldNum)
+		{
+			std::cout << "oldNum:\t" << oldNum << std::endl;
+			std::cout << "newNum:\t" << newNum << std::endl;
+			break;
+		}
+	}
 	
 	return 0;
 }
