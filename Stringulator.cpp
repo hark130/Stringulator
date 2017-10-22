@@ -122,14 +122,14 @@ void StringNum::addNum(unsigned int num)
 			}
 			// std::cout << "Run #" << i << ":\t*number == " << *number << std::endl;  // DEBUGGING
 			placeValue = get_position_value(num, i);
-			std::cout << "Place value at " << i << " is " << placeValue << std::endl;  // DEBUGGING
+			// std::cout << "Place value at " << i << " is " << placeValue << std::endl;  // DEBUGGING
 			// std::cout << "Pre-increment digit at position " << i << " is " << *number << std::endl;  // DEBUGGING
 			*number = increment_char(*number, placeValue, &carryOver);
 			// std::cout << "Post-increment digit at position " << i << " is " << *number << std::endl;  // DEBUGGING
 
 			if (carryOver)
 			{
-				std::cout << "Entering carry over condition" << std::endl;  // DEBUGGING
+				// std::cout << "Entering carry over condition" << std::endl;  // DEBUGGING
 				// std::cout << "Pre-increment num:\t" << num << std::endl;  // DEBUGGING
 				if (num == UINT_MAX || UINT_MAX - num < (carryOver * pow(10, i)))
 				{
@@ -235,7 +235,7 @@ unsigned int StringNum::get_position_value(unsigned int value, int digitNum)
 		retVal -= (unsigned int)(value % (unsigned int)pow(10, digitNum - 1));
 		retVal /= (unsigned int)pow(10, digitNum - 1);
 	}
-	std::cout << "The digit at position " << digitNum << " in value " << value << " is " << retVal << std::endl;  // DEBUGGING
+	// std::cout << "The digit at position " << digitNum << " in value " << value << " is " << retVal << std::endl;  // DEBUGGING
 
 	return retVal;
 }

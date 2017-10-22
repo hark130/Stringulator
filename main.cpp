@@ -3,8 +3,9 @@
 #include <iostream>
 #include <string>
 
-#define NUM_RUNS 2
+#define NUM_RUNS 200
 // UINT_MAX == 4294967295
+#define LARGE_NUM 10000
 
 int main(void)
 {
@@ -56,10 +57,11 @@ int main(void)
 		// someNum.addNum(9);
 		// someNum.addNum(10);
 		// someNum.addNum(UINT_MAX);
-		std::cout << "UINT_MAX / 2 == " << UINT_MAX / 2 << std::endl;  // DEBUGGING
-		someNum.addNum(UINT_MAX / 2);
+		// std::cout << "UINT_MAX / 2 == " << UINT_MAX / 2 << std::endl;  // DEBUGGING
+		// someNum.addNum(UINT_MAX / 2);
+		someNum.addNum(LARGE_NUM);
 		newNum = stoll(someNum.getStringNum());
-		std::cout << "oldNum:\t" << oldNum << std::endl;
+		// std::cout << "oldNum:\t" << oldNum << std::endl;
 		std::cout << "newNum:\t" << newNum << std::endl;
 		if (newNum <= oldNum)
 		{
