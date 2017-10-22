@@ -1,4 +1,5 @@
 #include "Stringulator.h"
+#include <climits>		// UINT_MAX
 #include <cmath>
 #include <iostream>		// cout
 #include <regex>
@@ -110,12 +111,35 @@ void StringNum::addNum(unsigned int num)
 
 		while (1)
 		{
+			// Extend the strAsNum as necessary
+			while (numDigits > strAsNum.length())
+			{
+				// std::cout << "Extending strAsNum" << std::endl;  // DEBUGGING
+				strAsNum = "0" + strAsNum;
+				// std::cout << "strAsNum now == " << strAsNum << std::endl;  // DEBUGGING
+				number = strAsNum.end();
+				--number;
+			}
+			// std::cout << "Run #" << i << ":\t*number == " << *number << std::endl;  // DEBUGGING
 			placeValue = get_position_value(num, i);
+			std::cout << "Place value at " << i << " is " << placeValue << std::endl;  // DEBUGGING
+			// std::cout << "Pre-increment digit at position " << i << " is " << *number << std::endl;  // DEBUGGING
 			*number = increment_char(*number, placeValue, &carryOver);
+			// std::cout << "Post-increment digit at position " << i << " is " << *number << std::endl;  // DEBUGGING
 
 			if (carryOver)
 			{
-				num += (carryOver * pow(10, i));
+				std::cout << "Entering carry over condition" << std::endl;  // DEBUGGING
+				// std::cout << "Pre-increment num:\t" << num << std::endl;  // DEBUGGING
+				if (num == UINT_MAX || UINT_MAX - num < (carryOver * pow(10, i)))
+				{
+					std::cout << "OVERFLOW CONDITION EXISTS!1!" << std::endl;
+				}
+				else
+				{
+					num += (carryOver * pow(10, i));
+				}
+				// std::cout << "Post-increment num:\t" << num << std::endl;  // DEBUGGING
 				numDigits = count_num_digits(num);
 				if (number == strAsNum.begin())
 				{
@@ -158,6 +182,7 @@ bool StringNum::check_it(void)
 	}
 	else
 	{
+		// std::cout << "BAD strAsNum == " << strAsNum << std::endl;  // DEBUGGING
 		strAsNum = "";
 	}
 
@@ -199,12 +224,18 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 unsigned int StringNum::get_position_value(unsigned int value, int digitNum)
 {
 	int retVal = value;
+	// std::cout << "value == " << value << std::endl;  // DEBUGGING
+	int numDigits = count_num_digits(value);
 
 	/* INPUT VALIDATION */
-	if (value && digitNum > 0)
+	if (value && digitNum > 0 && digitNum <= numDigits)
 	{
-		retVal = (unsigned int)((value % (unsigned int)pow(10, digitNum)) - (unsigned int)(value % (unsigned int)pow(10, digitNum - 1))) / (unsigned int)pow(10, digitNum - 1);
+		// retVal = (unsigned int)((value % (unsigned int)pow(10, digitNum)) - (unsigned int)(value % (unsigned int)pow(10, digitNum - 1))) / (unsigned int)pow(10, digitNum - 1);
+		retVal = (value % (unsigned int)pow(10, digitNum));
+		retVal -= (unsigned int)(value % (unsigned int)pow(10, digitNum - 1));
+		retVal /= (unsigned int)pow(10, digitNum - 1);
 	}
+	std::cout << "The digit at position " << digitNum << " in value " << value << " is " << retVal << std::endl;  // DEBUGGING
 
 	return retVal;
 }
