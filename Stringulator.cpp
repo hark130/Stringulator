@@ -2,6 +2,7 @@
 #include <climits>		// UINT_MAX
 #include <cmath>
 #include <iostream>		// cout
+#include <iterator>		// distance
 #include <regex>
 
 
@@ -94,11 +95,14 @@ void StringNum::addNum(unsigned int num)
 {
 	/* LOCAL VARIABLES */
 	int numDigits = 0;
-	int i = 1;
+	int i = 1;  // Iterating variable
+	int j = 1;  // Iterating variable
 	auto number = strAsNum.end();
 	--number;  // No longer pointing *past* the end
 	int carryOver = 0;
 	int placeValue = 0;
+	std::string tempString = "";
+	StringNum tempStringNum("0");
 
 	/* INPUT VALIDATION */
 	if (num == 1)
@@ -131,14 +135,28 @@ void StringNum::addNum(unsigned int num)
 			{
 				// std::cout << "Entering carry over condition" << std::endl;  // DEBUGGING
 				// std::cout << "Pre-increment num:\t" << num << std::endl;  // DEBUGGING
-				if (num == UINT_MAX || UINT_MAX - num < (carryOver * pow(10, i)))
+				// OLD VERSION... sometimes overflows the unsigned integer
+				// if (num == UINT_MAX || UINT_MAX - num < (carryOver * pow(10, i)))
+				// {
+				// 	std::cout << "OVERFLOW CONDITION EXISTS!1!" << std::endl;
+				// }
+				// else
+				// {
+				// 	num += (carryOver * pow(10, i));
+				// }
+				// NEW VERSION... 
+				tempString = std::to_string(carryOver);
+				for (j = i; j > 0; --j)
 				{
-					std::cout << "OVERFLOW CONDITION EXISTS!1!" << std::endl;
+					tempString = tempString + "0";
 				}
-				else
-				{
-					num += (carryOver * pow(10, i));
-				}
+				// std::cout << "Carry over is adding " << tempString << " to " << strAsNum << std::endl;  // DEBUGGING
+				//////////////////////////////////////////////////////////////
+				// IMPLEMENT .addStrNum() method then add it here!!! /////////
+				//////////////////////////////////////////////////////////////
+				tempStringNum.setStringNum(tempString);
+				addStrNum(tempStringNum);
+
 				// std::cout << "Post-increment num:\t" << num << std::endl;  // DEBUGGING
 				numDigits = count_num_digits(num);
 				if (number == strAsNum.begin())
@@ -156,6 +174,103 @@ void StringNum::addNum(unsigned int num)
 			{
 				++i;
 				--number;
+			}
+		}
+	}
+
+	return;
+}
+
+
+void StringNum::addStrNum(StringNum strNum)
+{
+	/* LOCAL VARIABLES */
+	std::string::iterator origNum;  // strAsNum iterator
+	std::string::iterator plusNum;  // strNum iterator
+	std::string strToAdd;			// Will hold the string from strNum
+	std::string tempString = "";	// temp string object for carry over conversion
+	StringNum tempStringNum("0");	// temp stringNum object for carry over addition
+	int carryOver = 0;				// Holds carry over value from increment_char()
+	int i = 0;						// Will hold current index in carry over situation
+	int j = 0;						// Iterating variable
+	//////////////////////////////////////////////////////////////////////////
+	// REDEFINE i TO HOLD THE CURRENT LENGTH OF THE STRING SINCE THE ITERATORS ARE SO UNRELIABLE?!?!
+	//////////////////////////////////////////////////////////////////////////	
+
+	if (check_it())
+	{
+		// Adjust lengths as needed
+		while (strNum.getStringNum().length() > strAsNum.length())
+		{
+			strAsNum = "0" + strAsNum;
+		}
+
+		// Setup necessary variables
+		origNum = strAsNum.end();
+		--origNum;
+		strToAdd = strNum.getStringNum();
+		std::cout << "strToAdd.length() == " << strToAdd.length() << std::endl;  // DEBUGGING
+		std::cout << "strAsNum.length() == " << strAsNum.length() << std::endl;  // DEBUGGING
+		// plusNum = strNum.getStringNum().end();
+		plusNum = strToAdd.end();
+		--plusNum;
+		std::cout << "STARTING *origNum == " << *origNum << "\tSTARTING *plusNum == " << *plusNum << std::endl;  // DEBUGGING
+		std::cout << "std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
+		std::cout << "std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
+		std::cout << "std::distance(origNum, strAsNum.end()) == " << std::distance(origNum, strAsNum.end()) << std::endl;  // DEBUGGING
+		std::cout << "std::distance(plusNum, strNum.getStringNum().end()) == " << std::distance(plusNum, strNum.getStringNum().end()) << std::endl;  // DEBUGGING
+		std::cout << "strNum == " << strNum.getStringNum() << std::endl;  // DEBUGGING
+
+		// Perform addition
+		while (1)
+		{
+			if (*plusNum != '0')
+			{
+				std::cout << ".addStrNum():\tEntering increment_char()" << std::endl;  // DEBUGGING
+				std::cout << "*origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+				*origNum = increment_char(*origNum, *plusNum, &carryOver);
+			}
+			else
+			{
+				std::cout << "SKIPPING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+			}
+
+			if (carryOver)
+			{
+				i = std::distance(origNum, strAsNum.end() - 1);
+				tempString = std::to_string(carryOver);
+
+				for (j = i; j > 0; --j)
+				{
+					tempString = tempString + "0";
+				}
+				tempStringNum.setStringNum(tempString);
+				addStrNum(tempStringNum);
+				carryOver = 0;
+
+				// Reset strAsNum iterator
+				origNum = strAsNum.end();
+				--origNum;
+				for (j = i; j > 0; --j)
+				{
+					std::cout << "RESET *origNum == " << *origNum << std::endl;  // DEBUGGING
+					--origNum;
+				}
+			}
+
+			// if (origNum == (strAsNum.begin() - 1) || (plusNum == (strNum.getStringNum().begin() - 1)))
+			// if (origNum < strAsNum.begin() || plusNum < strNum.getStringNum().begin())
+			if (0 >= std::distance(origNum, strAsNum.begin()) || 0 >= std::distance(plusNum, strNum.getStringNum().begin()))
+			{
+				std::cout << "std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
+				std::cout << "std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
+				std::cout << "BREAKING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+				break;
+			}
+			else
+			{
+				--origNum;
+				--plusNum;
 			}
 		}
 	}

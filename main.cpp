@@ -12,6 +12,7 @@ int main(void)
 	// int tempInt = 0;
 
 	StringNum someNum(std::string("This is a test"));
+	StringNum addThisNum(std::to_string(LARGE_NUM));
 	// std::cout << "String is:\t" << someNum.getStringNum() << std::endl;
 	// someNum.setStringNum(std::string("This is also test"));
 	// std::cout << "String is:\t" << someNum.getStringNum() << std::endl;
@@ -44,25 +45,43 @@ int main(void)
 	// std::cout << someNum.getStringNum() << std::endl;
 
 	someNum.setStringNum(std::string("0"));
-	std::cout << "STARTING TEST" << std::endl;
+	std::cout << "STARTING .addNum() TEST" << std::endl;
 	unsigned long long oldNum = 0;
 	unsigned long long newNum = 0;
+	// for (int i = 0; i <= NUM_RUNS; ++i)
+	// {
+	// 	oldNum = newNum;
+	// 	// someNum.addNum(UINT_MAX);
+	// 	///////////////////////////////////////////////////////
+	// 	// .addNum() doesn't work properly for values > 9!!! //
+	// 	///////////////////////////////////////////////////////
+	// 	// someNum.addNum(9);
+	// 	// someNum.addNum(10);
+	// 	// someNum.addNum(UINT_MAX);
+	// 	// std::cout << "UINT_MAX / 2 == " << UINT_MAX / 2 << std::endl;  // DEBUGGING
+	// 	// someNum.addNum(UINT_MAX / 2);
+	// 	someNum.addNum(LARGE_NUM);
+	// 	newNum = stoll(someNum.getStringNum());
+	// 	// std::cout << "oldNum:\t" << oldNum << std::endl;
+	// 	// std::cout << "newNum:\t" << newNum << std::endl << std::endl;
+	// 	if (newNum <= oldNum)
+	// 	{
+	// 		// std::cout << "oldNum >= newNum!!!" << std::endl;
+	// 		break;
+	// 	}
+	// }
+
+	std::cout << "STARTING .addStrNum() TEST" << std::endl;
+	someNum.setStringNum("0");
+	std::cout << "addThisNum:\t" << addThisNum.getStringNum() << std::endl;  // DEBUGGING
 	for (int i = 0; i <= NUM_RUNS; ++i)
 	{
-		oldNum = newNum;
-		// someNum.addNum(UINT_MAX);
-		///////////////////////////////////////////////////////
-		// .addNum() doesn't work properly for values > 9!!! //
-		///////////////////////////////////////////////////////
-		// someNum.addNum(9);
-		// someNum.addNum(10);
-		// someNum.addNum(UINT_MAX);
-		// std::cout << "UINT_MAX / 2 == " << UINT_MAX / 2 << std::endl;  // DEBUGGING
-		// someNum.addNum(UINT_MAX / 2);
-		someNum.addNum(LARGE_NUM);
+		oldNum = 0;
+		someNum.addStrNum(addThisNum);
+		std::cout << "someNum:\t" << someNum.getStringNum() << std::endl;  // DEBUGGING
 		newNum = stoll(someNum.getStringNum());
-		// std::cout << "oldNum:\t" << oldNum << std::endl;
-		std::cout << "newNum:\t" << newNum << std::endl;
+		std::cout << "oldNum:\t" << oldNum << std::endl;
+		std::cout << "newNum:\t" << newNum << std::endl << std::endl;
 		if (newNum <= oldNum)
 		{
 			std::cout << "oldNum >= newNum!!!" << std::endl;

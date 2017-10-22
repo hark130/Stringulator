@@ -11,6 +11,7 @@ class StringNum
 		std::string getStringNum(void);
 		void addOne(void);
 		void addNum(unsigned int num);
+		void addStrNum(StringNum strNum);
 
 	private:
 		std::string strAsNum;
