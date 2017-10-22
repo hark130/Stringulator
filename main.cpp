@@ -43,17 +43,22 @@ int main(void)
 
 	someNum.setStringNum(std::string("0"));
 	std::cout << "STARTING TEST" << std::endl;
-	unsinged long long oldNum = 0;
-	unsinged long long newNum = 0;
+	unsigned long long oldNum = 0;
+	unsigned long long newNum = 0;
 	for (int i = 0; i <= NUM_RUNS; ++i)
 	{
 		oldNum = newNum;
-		someNum.addNum(UINT_MAX);
+		// someNum.addNum(UINT_MAX);
+		///////////////////////////////////////////////////////
+		// .addNum() doesn't work properly for values > 9!!! //
+		///////////////////////////////////////////////////////
+		someNum.addNum(9);
 		newNum = stoll(someNum.getStringNum());
+		std::cout << "oldNum:\t" << oldNum << std::endl;
+		std::cout << "newNum:\t" << newNum << std::endl;
 		if (newNum <= oldNum)
 		{
-			std::cout << "oldNum:\t" << oldNum << std::endl;
-			std::cout << "newNum:\t" << newNum << std::endl;
+			std::cout << "oldNum > newNum!!!" << std::endl;
 			break;
 		}
 	}
