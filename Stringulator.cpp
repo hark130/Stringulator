@@ -11,7 +11,6 @@
 
 StringNum::StringNum(std::string strNum)
 {
-
 		strAsNum = strNum;	
 
 		check_it();
