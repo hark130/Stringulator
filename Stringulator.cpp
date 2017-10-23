@@ -191,7 +191,7 @@ void StringNum::addStrNum(StringNum strNum)
 	std::string tempString = "";	// temp string object for carry over conversion
 	StringNum tempStringNum("0");	// temp stringNum object for carry over addition
 	int carryOver = 0;				// Holds carry over value from increment_char()
-	int i = 0;						// Will hold current index in carry over situation
+	int i = 1;						// Will hold current index in carry over situation
 	int j = 0;						// Iterating variable
 	//////////////////////////////////////////////////////////////////////////
 	// REDEFINE i TO HOLD THE CURRENT LENGTH OF THE STRING SINCE THE ITERATORS ARE SO UNRELIABLE?!?!
@@ -209,35 +209,36 @@ void StringNum::addStrNum(StringNum strNum)
 		origNum = strAsNum.end();
 		--origNum;
 		strToAdd = strNum.getStringNum();
-		std::cout << "strToAdd.length() == " << strToAdd.length() << std::endl;  // DEBUGGING
-		std::cout << "strAsNum.length() == " << strAsNum.length() << std::endl;  // DEBUGGING
+		// std::cout << "strToAdd.length() == " << strToAdd.length() << std::endl;  // DEBUGGING
+		// std::cout << "strAsNum.length() == " << strAsNum.length() << std::endl;  // DEBUGGING
 		// plusNum = strNum.getStringNum().end();
 		plusNum = strToAdd.end();
 		--plusNum;
-		std::cout << "STARTING *origNum == " << *origNum << "\tSTARTING *plusNum == " << *plusNum << std::endl;  // DEBUGGING
-		std::cout << "std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
-		std::cout << "std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
-		std::cout << "std::distance(origNum, strAsNum.end()) == " << std::distance(origNum, strAsNum.end()) << std::endl;  // DEBUGGING
-		std::cout << "std::distance(plusNum, strNum.getStringNum().end()) == " << std::distance(plusNum, strNum.getStringNum().end()) << std::endl;  // DEBUGGING
-		std::cout << "strNum == " << strNum.getStringNum() << std::endl;  // DEBUGGING
+		// std::cout << "STARTING *origNum == " << *origNum << "\tSTARTING *plusNum == " << *plusNum << std::endl;  // DEBUGGING
+		// std::cout << "std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
+		// std::cout << "std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
+		// std::cout << "std::distance(origNum, strAsNum.end()) == " << std::distance(origNum, strAsNum.end()) << std::endl;  // DEBUGGING
+		// std::cout << "std::distance(plusNum, strNum.getStringNum().end()) == " << std::distance(plusNum, strNum.getStringNum().end()) << std::endl;  // DEBUGGING
+		// std::cout << "strNum == " << strNum.getStringNum() << std::endl;  // DEBUGGING
 
 		// Perform addition
 		while (1)
 		{
 			if (*plusNum != '0')
 			{
-				std::cout << ".addStrNum():\tEntering increment_char()" << std::endl;  // DEBUGGING
-				std::cout << "*origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
-				*origNum = increment_char(*origNum, *plusNum, &carryOver);
+				// std::cout << ".addStrNum():\tEntering increment_char()" << std::endl;  // DEBUGGING
+				// std::cout << "PRE CHAR INCREMENT *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+				*origNum = increment_char(*origNum, *plusNum - 48, &carryOver);
+				// std::cout << "POST CHAR INCREMENT *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
 			}
 			else
 			{
-				std::cout << "SKIPPING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+				// std::cout << "SKIPPING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
 			}
 
 			if (carryOver)
 			{
-				i = std::distance(origNum, strAsNum.end() - 1);
+				// i = std::distance(origNum, strAsNum.end() - 1);
 				tempString = std::to_string(carryOver);
 
 				for (j = i; j > 0; --j)
@@ -253,22 +254,24 @@ void StringNum::addStrNum(StringNum strNum)
 				--origNum;
 				for (j = i; j > 0; --j)
 				{
-					std::cout << "RESET *origNum == " << *origNum << std::endl;  // DEBUGGING
+					// std::cout << "RESET *origNum == " << *origNum << std::endl;  // DEBUGGING
 					--origNum;
 				}
 			}
 
 			// if (origNum == (strAsNum.begin() - 1) || (plusNum == (strNum.getStringNum().begin() - 1)))
 			// if (origNum < strAsNum.begin() || plusNum < strNum.getStringNum().begin())
-			if (0 >= std::distance(origNum, strAsNum.begin()) || 0 >= std::distance(plusNum, strNum.getStringNum().begin()))
+			// if (0 >= std::distance(origNum, strAsNum.begin()) || 0 >= std::distance(plusNum, strNum.getStringNum().begin()))
+			if (i == strAsNum.length())
 			{
-				std::cout << "std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
-				std::cout << "std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
-				std::cout << "BREAKING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
+				// std::cout << "BREAKING std::distance(origNum, strAsNum.begin()) == " << std::distance(origNum, strAsNum.begin()) << std::endl;  // DEBUGGING
+				// std::cout << "BREAKING std::distance(plusNum, strNum.getStringNum().begin()) == " << std::distance(plusNum, strNum.getStringNum().begin()) << std::endl;  // DEBUGGING
+				// std::cout << "BREAKING *origNum == " << *origNum << "\t*plusNum == " << *plusNum << std::endl;  // DEBUGGING
 				break;
 			}
 			else
 			{
+				++i;
 				--origNum;
 				--plusNum;
 			}
@@ -309,12 +312,17 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 {
 	char retVal = num;
 
-	if (num >= 48 && num <= 57  			// Char is a num
+	// if (num >= 48 && num <= 57  			// Char is a num
+	// 	&& numToAdd >= 1 && numToAdd < 10 	// numToAdd is appropriate
+	// 	&& carryVal)						// Pointer is valid
+	if (num >= '0' && num <= '9'  			// Char is a num
 		&& numToAdd >= 1 && numToAdd < 10 	// numToAdd is appropriate
 		&& carryVal)						// Pointer is valid
 	{
+		// std::cout << "increment_char():\tPOST ADD " << num << " + " << numToAdd << " = ";  // DEBUGGING
 		// retVal = (char)(((int)((int)num + numToAdd) % 96) + 48);
 		retVal = num + numToAdd;
+		// std::cout << retVal << std::endl;  // DEBUGGING
 		
 		// Verify we didn't 'overflow' a "number"
 		if (retVal > 57)
@@ -330,6 +338,12 @@ char StringNum::increment_char(char num, int numToAdd, int* carryVal)
 		{
 			*carryVal = 0;
 		}
+	}
+	else
+	{
+		// std::cout << "increment_char():\tnum == " << num << std::endl;
+		// std::cout << "increment_char():\tnumToAdd == " << numToAdd << std::endl;
+		// std::cout << "increment_char():\tNOT INCREMENTING!" << std::endl;
 	}
 
 	return retVal;
